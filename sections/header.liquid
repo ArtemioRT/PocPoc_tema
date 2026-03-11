@@ -1,0 +1,37 @@
+<header class="header">
+  <div class="container header-inner">
+    <a class="logo" href="{{ routes.root_url }}">{{ section.settings.logo_text | default: shop.name }}</a>
+    <button class="btn btn-ghost" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-nav">
+      Menu
+    </button>
+    <nav id="site-nav" class="nav" data-nav data-open="true">
+      {% if section.settings.menu != blank %}
+        {% for link in linklists[section.settings.menu].links %}
+          <a href="{{ link.url }}">{{ link.title }}</a>
+        {% endfor %}
+      {% endif %}
+      <a href="#gatos">Gatos</a>
+      <a href="#perros">Perros</a>
+      <a href="{{ routes.cart_url }}">Carrito ({{ cart.item_count }})</a>
+    </nav>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Texto de logo",
+      "default": "Pet Market"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu principal"
+    }
+  ]
+}
+{% endschema %}

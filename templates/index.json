@@ -1,0 +1,22 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "primary_link": "/collections/gatos",
+        "secondary_link": "/collections/perros"
+      }
+    },
+    "pet-categories": {
+      "type": "pet-categories"
+    },
+    "collection-grid": {
+      "type": "collection-grid"
+    }
+  },
+  "order": [
+    "hero",
+    "pet-categories",
+    "collection-grid"
+  ]
+}
