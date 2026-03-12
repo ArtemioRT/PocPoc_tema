@@ -1,0 +1,106 @@
+<section class="blog-hero">
+  <div class="container">
+    <div class="blog-hero-inner">
+      <p class="section-label">Consejos y nutrición</p>
+      <h1 class="section-title">Blog PetShop</h1>
+      <p class="section-desc">Todo lo que necesitas saber para cuidar a tu gato o perro de la mejor manera posible.</p>
+    </div>
+  </div>
+</section>
+
+<section class="blog-grid-section">
+  <div class="container">
+
+    <div class="blog-tags">
+      <button class="blog-tag-btn active" onclick="filterBlog('all', this)">Todos</button>
+      <button class="blog-tag-btn" onclick="filterBlog('gatos', this)">🐱 Gatos</button>
+      <button class="blog-tag-btn" onclick="filterBlog('perros', this)">🐶 Perros</button>
+      <button class="blog-tag-btn" onclick="filterBlog('nutricion', this)">🥗 Nutrición</button>
+      <button class="blog-tag-btn" onclick="filterBlog('salud', this)">💊 Salud</button>
+      <button class="blog-tag-btn" onclick="filterBlog('consejos', this)">💡 Consejos</button>
+    </div>
+
+    {%- if blog.articles.size > 0 -%}
+      {%- assign featured = blog.articles.first -%}
+      <div class="blog-featured-post">
+        <div class="blog-featured-img">
+          {%- if featured.image -%}
+            <img src="{{ featured.image | img_url: '800x500' }}" alt="{{ featured.title | escape }}">
+          {%- else -%}
+            <div class="blog-placeholder-img" style="font-size:80px; display:flex; align-items:center; justify-content:center;">🐾</div>
+          {%- endif -%}
+          <span class="blog-featured-badge">Artículo destacado</span>
+        </div>
+        <div class="blog-featured-content">
+          <div class="blog-meta">
+            <span>{{ featured.published_at | date: '%d %b %Y' }}</span>
+            <span>·</span>
+            <span>{{ featured.author }}</span>
+          </div>
+          <h2 class="blog-featured-title"><a href="{{ featured.url }}">{{ featured.title }}</a></h2>
+          <p class="blog-featured-excerpt">{{ featured.excerpt_or_content | strip_html | truncatewords: 30 }}</p>
+          <a href="{{ featured.url }}" class="btn-primary" style="background: var(--forest); color:white; display:inline-flex;">Leer artículo →</a>
+        </div>
+      </div>
+
+      <div class="blog-grid">
+        {%- for article in blog.articles offset: 1 -%}
+          {%- render 'article-card', article: article -%}
+        {%- endfor -%}
+      </div>
+
+    {%- else -%}
+      <!-- Demo articles -->
+      {%- assign demo_titles = '¿Cuántas veces al día debe comer mi gato?,Los mejores alimentos para perros con artritis,Guía completa: diferencias entre alimento seco y húmedo,Suplementos esenciales para la salud de tu mascota,¿Cómo saber si mi perro tiene una alergia alimentaria?,5 señales de que tu gato está bien nutrido' | split: ',' -%}
+      {%- assign demo_emoji3 = '🐱,🐶,🌾,💊,🐶,🐱' | split: ',' -%}
+      {%- assign demo_tags = 'gatos,perros,nutricion,salud,perros,gatos' | split: ',' -%}
+      {%- assign demo_date = '10 Mar 2026,8 Mar 2026,5 Mar 2026,1 Mar 2026,25 Feb 2026,20 Feb 2026' | split: ',' -%}
+
+      <!-- Featured post demo -->
+      <div class="blog-featured-post">
+        <div class="blog-featured-img">
+          <div class="blog-placeholder-img" style="font-size:80px; display:flex; align-items:center; justify-content:center; background:var(--cream-dark); height:100%;">🐱</div>
+          <span class="blog-featured-badge">Artículo destacado</span>
+        </div>
+        <div class="blog-featured-content">
+          <div class="blog-meta"><span>10 Mar 2026</span><span>·</span><span>Equipo PetShop</span></div>
+          <h2 class="blog-featured-title"><a href="#">¿Cuántas veces al día debe comer mi gato?</a></h2>
+          <p class="blog-featured-excerpt">La frecuencia de alimentación de tu gato depende de su edad, peso y condición de salud. Te explicamos todo lo que necesitas saber para establecer la rutina perfecta...</p>
+          <a href="#" class="btn-primary" style="background: var(--forest); color:white; display:inline-flex;">Leer artículo →</a>
+        </div>
+      </div>
+
+      <div class="blog-grid">
+        {%- for title in demo_titles offset: 1 -%}
+          <article class="article-card" data-tag="{{ demo_tags[forloop.index0] }}">
+            <div class="article-img">
+              <span style="font-size:52px">{{ demo_emoji3[forloop.index0] }}</span>
+              <span class="article-tag-pill">{{ demo_tags[forloop.index0] | replace: 'nutricion','Nutrición' | replace: 'salud','Salud' | capitalize }}</span>
+            </div>
+            <div class="article-body">
+              <div class="blog-meta"><span>{{ demo_date[forloop.index0] }}</span><span>·</span><span>4 min lectura</span></div>
+              <h3 class="article-title"><a href="#">{{ title }}</a></h3>
+              <p class="article-excerpt">Descubre los mejores consejos y recomendaciones de nuestros expertos en nutrición animal...</p>
+              <a href="#" class="article-read-more">Leer más →</a>
+            </div>
+          </article>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+<script>
+  function filterBlog(tag, btn) {
+    document.querySelectorAll('.blog-tag-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.article-card').forEach(card => {
+      if (tag === 'all' || card.dataset.tag === tag) {
+        card.style.display = '';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+</script>

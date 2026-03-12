@@ -1,0 +1,87 @@
+<section class="featured-products">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <p class="section-label">Lo más vendido</p>
+        <h2 class="section-title">Productos destacados</h2>
+        <p class="section-desc">Los favoritos de nuestros clientes y sus mascotas</p>
+      </div>
+      <a href="{{ routes.all_products_collection_url }}" class="btn-primary" style="background: var(--forest); color: white;">Ver todos →</a>
+    </div>
+
+    <div class="products-grid">
+      {%- for product in collections['destacados'].products limit: 4 -%}
+      <article class="product-card">
+        <div class="product-image-wrap">
+          {%- if product.featured_image -%}
+            <img src="{{ product.featured_image | img_url: '400x400' }}" alt="{{ product.title | escape }}" loading="lazy">
+          {%- else -%}
+            <span>{{ product.title | slice: 0 }}</span>
+          {%- endif -%}
+          {%- if product.tags contains 'nuevo' -%}
+            <span class="product-badge badge-new">Nuevo</span>
+          {%- elsif product.compare_at_price > product.price -%}
+            <span class="product-badge badge-sale">Oferta</span>
+          {%- else -%}
+            <span class="product-badge badge-popular">Popular</span>
+          {%- endif -%}
+          <div class="product-pet-tag">
+            {%- if product.tags contains 'gatos' -%}🐱
+            {%- elsif product.tags contains 'perros' -%}🐶
+            {%- else -%}🐾{%- endif -%}
+          </div>
+          <button class="product-quick-add" aria-label="Agregar al carrito">+</button>
+        </div>
+        <div class="product-info">
+          <div class="product-meta">
+            <span class="product-category">
+              {%- if product.type != blank -%}{{ product.type }}{%- else -%}Alimento{%- endif -%}
+            </span>
+            <span class="product-rating">★ 4.8</span>
+          </div>
+          <a href="{{ product.url }}" class="product-name">{{ product.title }}</a>
+          <div class="product-price-row">
+            <div>
+              <span class="product-price">{{ product.price | money }}</span>
+              {%- if product.compare_at_price > product.price -%}
+                <span class="product-price-old">{{ product.compare_at_price | money }}</span>
+              {%- endif -%}
+            </div>
+            <button class="add-to-cart-mini">+ Agregar</button>
+          </div>
+        </div>
+      </article>
+      {%- else -%}
+      <!-- Placeholder cards cuando no hay colección 'destacados' -->
+      {%- assign demo_products = "Croquetas Royal Canin Adulto,Pâté Premium Gatitos,Hills Science Diet Perro,Snacks Dentales Naturales" | split: "," -%}
+      {%- assign demo_emoji = "🥣,🥩,🌾,⭐" | split: "," -%}
+      {%- assign demo_price = "$350,$ 89,$ 420,$ 120" | split: "," -%}
+      {%- assign demo_pet = "🐱,🐱,🐶,🐶" | split: "," -%}
+      {%- assign demo_badge = "badge-popular,badge-new,badge-popular,badge-sale" | split: "," -%}
+      {%- assign demo_badge_text = "Popular,Nuevo,Popular,Oferta" | split: "," -%}
+
+      {%- for name in demo_products -%}
+      <article class="product-card">
+        <div class="product-image-wrap">
+          <span style="font-size:80px">{{ demo_emoji[forloop.index0] }}</span>
+          <span class="product-badge {{ demo_badge[forloop.index0] }}">{{ demo_badge_text[forloop.index0] }}</span>
+          <div class="product-pet-tag">{{ demo_pet[forloop.index0] }}</div>
+          <button class="product-quick-add">+</button>
+        </div>
+        <div class="product-info">
+          <div class="product-meta">
+            <span class="product-category">Alimento</span>
+            <span class="product-rating">★ 4.9</span>
+          </div>
+          <div class="product-name">{{ name }}</div>
+          <div class="product-price-row">
+            <span class="product-price">{{ demo_price[forloop.index0] }}</span>
+            <button class="add-to-cart-mini">+ Agregar</button>
+          </div>
+        </div>
+      </article>
+      {%- endfor -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>

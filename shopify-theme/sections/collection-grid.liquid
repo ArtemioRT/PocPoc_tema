@@ -1,0 +1,185 @@
+<section class="collection-grid-section">
+  <div class="container">
+    <div class="collection-toolbar">
+      <div class="toolbar-left">
+        <button class="filter-toggle-btn" onclick="toggleFilters()" aria-expanded="false" aria-controls="filters-panel">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+          Filtros
+        </button>
+        <span class="results-count">{{ collection.products_count }} resultados</span>
+      </div>
+      <div class="toolbar-right">
+        <div class="sort-select-wrap">
+          <label for="sort-select" class="sr-only">Ordenar por</label>
+          <select id="sort-select" class="sort-select" onchange="sortProducts(this.value)">
+            <option value="manual">Destacados</option>
+            <option value="price-ascending">Precio: menor a mayor</option>
+            <option value="price-descending">Precio: mayor a menor</option>
+            <option value="title-ascending">A - Z</option>
+            <option value="created-descending">Más nuevos</option>
+            <option value="best-selling">Más vendidos</option>
+          </select>
+        </div>
+        <div class="view-toggle">
+          <button class="view-btn active" onclick="setView('grid', this)" aria-label="Vista cuadrícula">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          </button>
+          <button class="view-btn" onclick="setView('list', this)" aria-label="Vista lista">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="collection-layout">
+      <!-- SIDEBAR FILTERS -->
+      <aside class="filters-sidebar" id="filters-panel">
+        <div class="filters-header">
+          <span class="filters-title">Filtrar</span>
+          <button class="clear-filters-btn" onclick="clearFilters()">Limpiar todo</button>
+        </div>
+
+        <div class="filter-group">
+          <button class="filter-group-toggle" onclick="toggleFilterGroup(this)">
+            Mascota
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="filter-group-body">
+            <label class="filter-checkbox"><input type="checkbox" value="gatos"> <span>🐱 Gatos</span></label>
+            <label class="filter-checkbox"><input type="checkbox" value="perros"> <span>🐶 Perros</span></label>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <button class="filter-group-toggle" onclick="toggleFilterGroup(this)">
+            Categoría
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="filter-group-body">
+            <label class="filter-checkbox"><input type="checkbox" value="croquetas"> <span>🥣 Croquetas</span></label>
+            <label class="filter-checkbox"><input type="checkbox" value="alimento-seco"> <span>🌾 Alimento Seco</span></label>
+            <label class="filter-checkbox"><input type="checkbox" value="humedo"> <span>🥩 Húmedo</span></label>
+            <label class="filter-checkbox"><input type="checkbox" value="premios"> <span>⭐ Premios</span></label>
+            <label class="filter-checkbox"><input type="checkbox" value="suplementos"> <span>💊 Suplementos</span></label>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <button class="filter-group-toggle" onclick="toggleFilterGroup(this)">
+            Precio
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="filter-group-body">
+            <div class="price-range-inputs">
+              <input type="number" class="price-input" placeholder="Min $">
+              <span>—</span>
+              <input type="number" class="price-input" placeholder="Max $">
+            </div>
+            <input type="range" class="price-slider" min="0" max="2000" value="2000">
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <button class="filter-group-toggle" onclick="toggleFilterGroup(this)">
+            Marca
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="filter-group-body">
+            {%- assign brands = collection.products | map: 'vendor' | uniq -%}
+            {%- for brand in brands limit: 8 -%}
+              <label class="filter-checkbox"><input type="checkbox" value="{{ brand | handle }}"> <span>{{ brand }}</span></label>
+            {%- else -%}
+              <label class="filter-checkbox"><input type="checkbox"> <span>Royal Canin</span></label>
+              <label class="filter-checkbox"><input type="checkbox"> <span>Purina Pro Plan</span></label>
+              <label class="filter-checkbox"><input type="checkbox"> <span>Hill's Science</span></label>
+              <label class="filter-checkbox"><input type="checkbox"> <span>Eukanuba</span></label>
+            {%- endfor -%}
+          </div>
+        </div>
+      </aside>
+
+      <!-- PRODUCT GRID -->
+      <div class="products-area">
+        <div class="products-grid" id="products-grid">
+          {%- for product in collection.products -%}
+            {%- render 'product-card', product: product -%}
+          {%- else -%}
+            {%- comment -%} Demo products {%- endcomment -%}
+            {%- assign demo_names = 'Royal Canin Adulto Indoor 1.5kg,Purina Pro Plan Salmón 3kg,Hill\'s Science Diet Adulto 6.8kg,Whiskas Pollo y Atún 85g,Temptations Snacks Pollo 85g,Nutri-Vet Suplemento Omega-3,Eukanuba Adulto Razas Medianas,Fancy Feast Paté Salmón 85g' | split: ',' -%}
+            {%- assign demo_emoji = '🥣,🌾,🌾,🥩,⭐,💊,🥣,🥩' | split: ',' -%}
+            {%- assign demo_price = '350,480,780,65,89,220,560,55' | split: ',' -%}
+            {%- assign demo_badge = 'badge-popular,badge-new,,badge-sale,badge-popular,,badge-new,badge-sale' | split: ',' -%}
+            {%- assign demo_badge_text = 'Popular,Nuevo,,Oferta,Popular,,Nuevo,Oferta' | split: ',' -%}
+            {%- assign demo_pet = '🐱,🐱,🐶,🐱,🐱,🐶,🐶,🐱' | split: ',' -%}
+            {%- for name in demo_names -%}
+              <article class="product-card">
+                <div class="product-image-wrap">
+                  <span style="font-size:72px">{{ demo_emoji[forloop.index0] }}</span>
+                  {%- if demo_badge_text[forloop.index0] != blank -%}
+                    <span class="product-badge {{ demo_badge[forloop.index0] }}">{{ demo_badge_text[forloop.index0] }}</span>
+                  {%- endif -%}
+                  <div class="product-pet-tag">{{ demo_pet[forloop.index0] }}</div>
+                  <button class="product-quick-add" aria-label="Agregar al carrito">+</button>
+                  <button class="product-wishlist" aria-label="Guardar">♡</button>
+                </div>
+                <div class="product-info">
+                  <div class="product-meta">
+                    <span class="product-category">Alimento</span>
+                    <span class="product-rating">★ 4.{{ forloop.index | modulo: 2 | plus: 7 }}</span>
+                  </div>
+                  <div class="product-name">{{ name }}</div>
+                  <div class="product-price-row">
+                    <span class="product-price">${{ demo_price[forloop.index0] }}</span>
+                    <button class="add-to-cart-mini">+ Agregar</button>
+                  </div>
+                </div>
+              </article>
+            {%- endfor -%}
+          {%- endfor -%}
+        </div>
+
+        {%- if paginate.pages > 1 -%}
+        <div class="pagination">
+          {%- if paginate.previous -%}
+            <a href="{{ paginate.previous.url }}" class="page-btn">← Anterior</a>
+          {%- endif -%}
+          {%- for part in paginate.parts -%}
+            {%- if part.is_link -%}
+              <a href="{{ part.url }}" class="page-btn">{{ part.title }}</a>
+            {%- else -%}
+              <span class="page-btn active">{{ part.title }}</span>
+            {%- endif -%}
+          {%- endfor -%}
+          {%- if paginate.next -%}
+            <a href="{{ paginate.next.url }}" class="page-btn">Siguiente →</a>
+          {%- endif -%}
+        </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function toggleFilters() {
+    const panel = document.getElementById('filters-panel');
+    const btn = document.querySelector('.filter-toggle-btn');
+    panel.classList.toggle('open');
+    btn.setAttribute('aria-expanded', panel.classList.contains('open'));
+  }
+  function toggleFilterGroup(btn) {
+    btn.parentElement.classList.toggle('collapsed');
+  }
+  function clearFilters() {
+    document.querySelectorAll('.filter-checkbox input').forEach(i => i.checked = false);
+  }
+  function setView(mode, btn) {
+    document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const grid = document.getElementById('products-grid');
+    grid.className = mode === 'list' ? 'products-grid products-list' : 'products-grid';
+  }
+  function sortProducts(val) {
+    window.location.href = window.location.pathname + '?sort_by=' + val;
+  }
+</script>

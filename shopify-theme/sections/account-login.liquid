@@ -1,0 +1,36 @@
+<section class="account-page">
+  <div class="container">
+    <div class="account-card">
+      <div style="text-align:center; font-size:48px; margin-bottom:16px;">🐾</div>
+      <h1 class="account-card-title">Bienvenido de vuelta</h1>
+      <p class="account-card-sub">Inicia sesión para ver tus pedidos y favoritos</p>
+
+      {%- form 'customer_login' -%}
+        {%- if form.errors -%}
+          <div style="background:#FEE; border: 1px solid var(--terracotta); border-radius: var(--radius); padding: 12px 16px; margin-bottom:20px; font-size:13.5px; color: var(--terracotta);">
+            {{ form.errors | default_errors }}
+          </div>
+        {%- endif -%}
+
+        <div class="form-field">
+          <label class="form-label" for="CustomerEmail">Correo electrónico</label>
+          <input type="email" name="customer[email]" id="CustomerEmail" class="form-input" autocorrect="off" autocapitalize="off" placeholder="tu@correo.com" required>
+        </div>
+
+        <div class="form-field">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <label class="form-label" for="CustomerPassword" style="margin-bottom:0;">Contraseña</label>
+            <a href="/account/recover" style="font-size:12px; color: var(--forest); font-weight:600;">¿Olvidaste tu contraseña?</a>
+          </div>
+          <input type="password" name="customer[password]" id="CustomerPassword" class="form-input" placeholder="••••••••" required>
+        </div>
+
+        <button type="submit" class="form-submit">Iniciar sesión</button>
+      {%- endform -%}
+
+      <div class="account-switch">
+        ¿No tienes cuenta? <a href="/account/register">Regístrate gratis</a>
+      </div>
+    </div>
+  </div>
+</section>

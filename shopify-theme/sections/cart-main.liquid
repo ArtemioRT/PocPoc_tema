@@ -1,0 +1,150 @@
+<section class="cart-page">
+  <div class="container">
+    <div class="cart-page-header">
+      <h1 class="section-title">Tu carrito 🛒</h1>
+      <a href="{{ routes.all_products_collection_url }}" class="cart-continue-link">← Seguir comprando</a>
+    </div>
+
+    {%- if cart.item_count > 0 -%}
+    <form action="/cart" method="post" class="cart-layout">
+
+      <!-- CART ITEMS -->
+      <div class="cart-items">
+        <div class="cart-items-header">
+          <span>Producto</span>
+          <span>Precio</span>
+          <span>Cantidad</span>
+          <span>Total</span>
+        </div>
+
+        {%- for item in cart.items -%}
+        <div class="cart-item" data-key="{{ item.key }}">
+          <div class="cart-item-product">
+            <a href="{{ item.url }}" class="cart-item-img-wrap">
+              {%- if item.image -%}
+                <img src="{{ item.image | img_url: '120x120' }}" alt="{{ item.title | escape }}" loading="lazy">
+              {%- else -%}
+                <span style="font-size:40px">🐾</span>
+              {%- endif -%}
+            </a>
+            <div class="cart-item-details">
+              <a href="{{ item.url }}" class="cart-item-title">{{ item.title }}</a>
+              {%- unless item.variant.title == 'Default Title' -%}
+                <div class="cart-item-variant">{{ item.variant.title }}</div>
+              {%- endunless -%}
+              <div class="cart-item-vendor">{{ item.vendor }}</div>
+              <button class="cart-item-remove" onclick="removeItem('{{ item.key }}')" type="button">Eliminar</button>
+            </div>
+          </div>
+
+          <div class="cart-item-price">{{ item.price | money }}</div>
+
+          <div class="cart-item-qty">
+            <div class="qty-selector qty-selector-sm">
+              <button type="button" class="qty-btn" onclick="updateQty('{{ item.key }}', {{ item.quantity | minus: 1 }})">−</button>
+              <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" class="qty-input" onchange="updateQty('{{ item.key }}', this.value)">
+              <button type="button" class="qty-btn" onclick="updateQty('{{ item.key }}', {{ item.quantity | plus: 1 }})">+</button>
+            </div>
+          </div>
+
+          <div class="cart-item-total">{{ item.line_price | money }}</div>
+        </div>
+        {%- endfor -%}
+
+        <!-- Free shipping progress -->
+        {%- assign free_shipping_threshold = 59900 -%}
+        {%- assign remaining = free_shipping_threshold | minus: cart.total_price -%}
+        <div class="free-shipping-bar">
+          {%- if remaining > 0 -%}
+            <p>🚚 Te faltan <strong>{{ remaining | money }}</strong> para envío gratis</p>
+            <div class="shipping-progress"><div class="shipping-fill" style="width:{{ cart.total_price | times: 100 | divided_by: free_shipping_threshold }}%"></div></div>
+          {%- else -%}
+            <p>🎉 <strong>¡Tienes envío gratis!</strong></p>
+            <div class="shipping-progress"><div class="shipping-fill" style="width:100%; background: var(--forest)"></div></div>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <!-- ORDER SUMMARY -->
+      <aside class="cart-summary">
+        <div class="cart-summary-inner">
+          <h2 class="cart-summary-title">Resumen del pedido</h2>
+
+          <div class="summary-row"><span>Subtotal ({{ cart.item_count }} artículos)</span><span>{{ cart.total_price | money }}</span></div>
+          <div class="summary-row"><span>Envío</span><span class="text-green">Calculado al pagar</span></div>
+
+          {%- if cart.cart_level_discount_applications.size > 0 -%}
+            {%- for discount in cart.cart_level_discount_applications -%}
+              <div class="summary-row discount-row"><span>🏷 {{ discount.title }}</span><span>-{{ discount.total_allocated_amount | money }}</span></div>
+            {%- endfor -%}
+          {%- endif -%}
+
+          <div class="summary-total"><span>Total</span><span>{{ cart.total_price | money }}</span></div>
+
+          <div class="coupon-section">
+            <input type="text" name="discount" placeholder="Código de descuento" class="coupon-input">
+            <button type="button" class="coupon-btn">Aplicar</button>
+          </div>
+
+          <button type="submit" name="checkout" class="checkout-btn">
+            🔒 Pagar — {{ cart.total_price | money }}
+          </button>
+
+          <div class="payment-icons">
+            <span class="payment-icon">💳</span>
+            <span class="payment-icon">🏦</span>
+            <span class="payment-icon">📱</span>
+            <span style="font-size:11px; color:var(--gray)">Pagos 100% seguros</span>
+          </div>
+        </div>
+
+        <div class="cart-upsell">
+          <div class="upsell-title">⭐ Los clientes también compraron</div>
+          <div class="upsell-item">
+            <span style="font-size:28px">⭐</span>
+            <div>
+              <div class="upsell-name">Temptations Mix Ups 85g</div>
+              <div class="upsell-price">$89</div>
+            </div>
+            <button class="upsell-add-btn">+</button>
+          </div>
+          <div class="upsell-item">
+            <span style="font-size:28px">💊</span>
+            <div>
+              <div class="upsell-name">Omega-3 Suplemento 60ml</div>
+              <div class="upsell-price">$190</div>
+            </div>
+            <button class="upsell-add-btn">+</button>
+          </div>
+        </div>
+      </aside>
+
+    </form>
+
+    {%- else -%}
+
+    <div class="empty-cart">
+      <div class="empty-cart-icon">🛒</div>
+      <h2>Tu carrito está vacío</h2>
+      <p>Parece que aún no has agregado nada. ¡Encuentra el alimento perfecto para tu mascota!</p>
+      <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+        <a href="{{ collections['gatos'].url | default: routes.all_products_collection_url }}" class="btn-primary" style="background:var(--terracotta)">🐱 Ver para Gatos</a>
+        <a href="{{ collections['perros'].url | default: routes.all_products_collection_url }}" class="btn-primary" style="background:var(--forest)">🐶 Ver para Perros</a>
+      </div>
+    </div>
+
+    {%- endif -%}
+  </div>
+</section>
+
+<script>
+  function removeItem(key) {
+    fetch('/cart/change.js', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({id:key,quantity:0}) })
+      .then(() => location.reload());
+  }
+  function updateQty(key, qty) {
+    if (qty < 0) qty = 0;
+    fetch('/cart/change.js', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({id:key,quantity:parseInt(qty)}) })
+      .then(() => location.reload());
+  }
+</script>

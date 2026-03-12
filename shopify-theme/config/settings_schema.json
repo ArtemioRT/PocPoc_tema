@@ -1,0 +1,61 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "PetShop Premium",
+    "theme_version": "1.0.0",
+    "theme_author": "DotCasa",
+    "theme_documentation_url": "",
+    "theme_support_url": ""
+  },
+  {
+    "name": "Colores",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_forest",
+        "label": "Color principal (verde)",
+        "default": "#2D5016"
+      },
+      {
+        "type": "color",
+        "id": "color_terracotta",
+        "label": "Color de acento (terracota)",
+        "default": "#C4622D"
+      },
+      {
+        "type": "color",
+        "id": "color_cream",
+        "label": "Fondo principal",
+        "default": "#F7F3EC"
+      }
+    ]
+  },
+  {
+    "name": "Barra de anuncio",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "announcement_bar_enabled",
+        "label": "Mostrar barra de anuncio",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "announcement_text",
+        "label": "Texto del anuncio",
+        "default": "🚚 Envío gratis en pedidos mayores a $599"
+      }
+    ]
+  },
+  {
+    "name": "Tienda",
+    "settings": [
+      {
+        "type": "text",
+        "id": "shop_tagline",
+        "label": "Eslogan de la tienda",
+        "default": "Nutrición natural y premium para tus mascotas"
+      }
+    ]
+  }
+]

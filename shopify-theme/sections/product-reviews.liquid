@@ -1,0 +1,95 @@
+<section class="product-reviews" id="reviews">
+  <div class="container">
+    <div class="reviews-layout">
+
+      <div class="reviews-summary">
+        <div class="reviews-score">4.9</div>
+        <div class="reviews-stars">★★★★★</div>
+        <div class="reviews-count">127 reseñas</div>
+        <div class="reviews-bars">
+          <div class="rating-bar"><span>5★</span><div class="bar"><div class="bar-fill" style="width:82%"></div></div><span>82%</span></div>
+          <div class="rating-bar"><span>4★</span><div class="bar"><div class="bar-fill" style="width:12%"></div></div><span>12%</span></div>
+          <div class="rating-bar"><span>3★</span><div class="bar"><div class="bar-fill" style="width:4%"></div></div><span>4%</span></div>
+          <div class="rating-bar"><span>2★</span><div class="bar"><div class="bar-fill" style="width:1%"></div></div><span>1%</span></div>
+          <div class="rating-bar"><span>1★</span><div class="bar"><div class="bar-fill" style="width:1%"></div></div><span>1%</span></div>
+        </div>
+        <button class="write-review-btn" onclick="toggleReviewForm()">✏️ Escribir reseña</button>
+      </div>
+
+      <div class="reviews-list">
+        <div class="section-label" style="margin-bottom:24px">Reseñas de clientes</div>
+
+        <div class="review-card">
+          <div class="review-header">
+            <div class="reviewer-avatar">MG</div>
+            <div>
+              <div class="reviewer-name">María González</div>
+              <div class="review-date">Hace 2 días</div>
+            </div>
+            <div class="review-stars">★★★★★</div>
+          </div>
+          <p class="review-text">Mi gato es súper exigente y este alimento lo ama. Lleva 3 meses comiéndolo y se nota en su pelaje y energía. ¡Totalmente recomendado!</p>
+          <div class="review-helpful">¿Te fue útil? <button>👍 Sí (12)</button></div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-header">
+            <div class="reviewer-avatar">CR</div>
+            <div>
+              <div class="reviewer-name">Carlos Ramírez</div>
+              <div class="review-date">Hace 1 semana</div>
+            </div>
+            <div class="review-stars">★★★★★</div>
+          </div>
+          <p class="review-text">Excelente calidad y precio justo. El envío llegó en perfectas condiciones y muy rápido. Mi perro quedó encantado desde el primer día.</p>
+          <div class="review-helpful">¿Te fue útil? <button>👍 Sí (8)</button></div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-header">
+            <div class="reviewer-avatar">AL</div>
+            <div>
+              <div class="reviewer-name">Ana López</div>
+              <div class="review-date">Hace 2 semanas</div>
+            </div>
+            <div class="review-stars">★★★★☆</div>
+          </div>
+          <p class="review-text">Muy buen producto. El único detalle es que el empaque podría ser más resistente, pero la calidad del alimento es excelente. Mi gata lo come con gusto.</p>
+          <div class="review-helpful">¿Te fue útil? <button>👍 Sí (5)</button></div>
+        </div>
+
+        <!-- Review form (hidden) -->
+        <div class="review-form" id="review-form" style="display:none">
+          <h3 class="review-form-title">Escribe tu reseña</h3>
+          <div class="star-selector">
+            <span>Tu calificación:</span>
+            <div class="star-btns">
+              <button class="star-input" onclick="setRating(1)">★</button>
+              <button class="star-input" onclick="setRating(2)">★</button>
+              <button class="star-input" onclick="setRating(3)">★</button>
+              <button class="star-input" onclick="setRating(4)">★</button>
+              <button class="star-input" onclick="setRating(5)">★</button>
+            </div>
+          </div>
+          <input type="text" placeholder="Tu nombre" class="review-input">
+          <textarea placeholder="Cuéntanos tu experiencia..." class="review-textarea" rows="4"></textarea>
+          <button class="submit-review-btn">Publicar reseña</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function toggleReviewForm() {
+    const f = document.getElementById('review-form');
+    f.style.display = f.style.display === 'none' ? 'block' : 'none';
+    if (f.style.display === 'block') f.scrollIntoView({ behavior: 'smooth' });
+  }
+  function setRating(n) {
+    document.querySelectorAll('.star-input').forEach((s, i) => {
+      s.style.color = i < n ? 'var(--amber)' : 'var(--gray-light)';
+    });
+  }
+</script>

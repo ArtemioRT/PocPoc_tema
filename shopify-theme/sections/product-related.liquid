@@ -1,0 +1,34 @@
+<section class="related-products">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <p class="section-label">También te puede gustar</p>
+        <h2 class="section-title">Productos relacionados</h2>
+      </div>
+    </div>
+    <div class="products-grid products-grid-4">
+      {%- assign related = product.collections.first.products | where: 'id', '!=', product.id -%}
+      {%- for p in related limit: 4 -%}
+        {%- render 'product-card', product: p -%}
+      {%- else -%}
+        {%- assign demo_names2 = 'Purina ONE Adulto Pollo 3kg,Hill\'s Kitten Pollo 1.58kg,Temptations Mix Ups 85g,Nutri-Vet Omega-3 Gatos' | split: ',' -%}
+        {%- assign demo_emoji2 = '🌾,🥣,⭐,💊' | split: ',' -%}
+        {%- assign demo_price2 = '420,380,85,190' | split: ',' -%}
+        {%- for name in demo_names2 -%}
+          <article class="product-card">
+            <div class="product-image-wrap">
+              <span style="font-size:72px">{{ demo_emoji2[forloop.index0] }}</span>
+              <div class="product-pet-tag">🐱</div>
+              <button class="product-quick-add">+</button>
+            </div>
+            <div class="product-info">
+              <div class="product-meta"><span class="product-category">Alimento</span><span class="product-rating">★ 4.8</span></div>
+              <div class="product-name">{{ name }}</div>
+              <div class="product-price-row"><span class="product-price">${{ demo_price2[forloop.index0] }}</span><button class="add-to-cart-mini">+ Agregar</button></div>
+            </div>
+          </article>
+        {%- endfor -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>

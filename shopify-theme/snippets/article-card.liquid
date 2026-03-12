@@ -1,0 +1,22 @@
+<article class="article-card" data-tag="{{ article.tags | first | handle }}">
+  <a href="{{ article.url }}" class="article-img">
+    {%- if article.image -%}
+      <img src="{{ article.image | img_url: '400x260' }}" alt="{{ article.title | escape }}" loading="lazy">
+    {%- else -%}
+      <span style="font-size:52px">🐾</span>
+    {%- endif -%}
+    {%- if article.tags.first -%}
+      <span class="article-tag-pill">{{ article.tags.first }}</span>
+    {%- endif -%}
+  </a>
+  <div class="article-body">
+    <div class="blog-meta">
+      <span>{{ article.published_at | date: '%d %b %Y' }}</span>
+      <span>·</span>
+      <span>{{ article.author }}</span>
+    </div>
+    <h3 class="article-title"><a href="{{ article.url }}">{{ article.title }}</a></h3>
+    <p class="article-excerpt">{{ article.excerpt_or_content | strip_html | truncatewords: 18 }}</p>
+    <a href="{{ article.url }}" class="article-read-more">Leer más →</a>
+  </div>
+</article>

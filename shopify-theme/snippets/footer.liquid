@@ -1,0 +1,53 @@
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+
+      <div class="footer-brand">
+        <div class="header-logo">🐾 {{ shop.name | default: 'PetShop' }}<span style="color:var(--terracotta)">.</span></div>
+        <p>Nutrición natural y premium para gatos y perros. Porque tu mascota merece lo mejor.</p>
+      </div>
+
+      <div class="footer-col">
+        <div class="footer-col-title">🐱 Gatos</div>
+        <ul>
+          <li><a href="{{ collections['gatos-croquetas'].url | default: routes.all_products_collection_url }}">Croquetas</a></li>
+          <li><a href="{{ collections['gatos-alimento-seco'].url | default: routes.all_products_collection_url }}">Alimento Seco</a></li>
+          <li><a href="{{ collections['gatos-humedo'].url | default: routes.all_products_collection_url }}">Húmedo</a></li>
+          <li><a href="{{ collections['gatos-premios'].url | default: routes.all_products_collection_url }}">Premios</a></li>
+          <li><a href="{{ collections['gatos-suplementos'].url | default: routes.all_products_collection_url }}">Suplementos</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <div class="footer-col-title">🐶 Perros</div>
+        <ul>
+          <li><a href="{{ collections['perros-croquetas'].url | default: routes.all_products_collection_url }}">Croquetas</a></li>
+          <li><a href="{{ collections['perros-alimento-seco'].url | default: routes.all_products_collection_url }}">Alimento Seco</a></li>
+          <li><a href="{{ collections['perros-humedo'].url | default: routes.all_products_collection_url }}">Húmedo</a></li>
+          <li><a href="{{ collections['perros-premios'].url | default: routes.all_products_collection_url }}">Premios</a></li>
+          <li><a href="{{ collections['perros-suplementos'].url | default: routes.all_products_collection_url }}">Suplementos</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <div class="footer-col-title">Ayuda</div>
+        <ul>
+          <li><a href="{{ pages['faq'].url | default: routes.root_url }}">Preguntas frecuentes</a></li>
+          <li><a href="{{ pages['envios'].url | default: routes.root_url }}">Envíos y entregas</a></li>
+          <li><a href="{{ pages['devoluciones'].url | default: routes.root_url }}">Devoluciones</a></li>
+          <li><a href="{{ pages['contacto'].url | default: pages['contact'].url | default: routes.root_url }}">Contacto</a></li>
+          <li><a href="{{ blogs['noticias'].url | default: routes.root_url }}">Blog</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p>© {{ 'now' | date: "%Y" }} {{ shop.name }}. Todos los derechos reservados.</p>
+      <div style="display:flex; gap:16px;">
+        <a href="/policies/privacy-policy">Privacidad</a>
+        <a href="/policies/terms-of-service">Términos</a>
+      </div>
+    </div>
+  </div>
+</footer>

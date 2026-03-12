@@ -1,0 +1,74 @@
+<section class="collection-hero">
+  <div class="container">
+    <div class="collection-hero-inner">
+      <div class="collection-breadcrumb">
+        <a href="{{ routes.root_url }}">Inicio</a>
+        <span>/</span>
+        {%- if collection.title contains 'atos' -%}
+          <a href="{{ collections['gatos'].url | default: routes.all_products_collection_url }}">Gatos</a>
+        {%- elsif collection.title contains 'erros' or collection.title contains 'erro' -%}
+          <a href="{{ collections['perros'].url | default: routes.all_products_collection_url }}">Perros</a>
+        {%- endif -%}
+        <span>/</span>
+        <span>{{ collection.title }}</span>
+      </div>
+
+      <div class="collection-hero-content">
+        <div class="collection-hero-text">
+          {%- assign pet_emoji = '🐾' -%}
+          {%- assign pet_color = 'terracotta' -%}
+          {%- if collection.handle contains 'gato' -%}
+            {%- assign pet_emoji = '🐱' -%}
+            {%- assign pet_color = 'terracotta' -%}
+          {%- elsif collection.handle contains 'perro' -%}
+            {%- assign pet_emoji = '🐶' -%}
+            {%- assign pet_color = 'forest' -%}
+          {%- endif -%}
+
+          {%- if collection.handle contains 'croqueta' -%}{%- assign cat_icon = '🥣' -%}
+          {%- elsif collection.handle contains 'alimento-seco' or collection.handle contains 'seco' -%}{%- assign cat_icon = '🌾' -%}
+          {%- elsif collection.handle contains 'humedo' or collection.handle contains 'húmedo' -%}{%- assign cat_icon = '🥩' -%}
+          {%- elsif collection.handle contains 'premio' -%}{%- assign cat_icon = '⭐' -%}
+          {%- elsif collection.handle contains 'suplemento' -%}{%- assign cat_icon = '💊' -%}
+          {%- else -%}{%- assign cat_icon = pet_emoji -%}
+          {%- endif -%}
+
+          <div class="collection-icon-badge">{{ cat_icon }}{{ pet_emoji }}</div>
+          <h1 class="collection-title">{{ collection.title }}</h1>
+          {%- if collection.description != blank -%}
+            <p class="collection-desc">{{ collection.description }}</p>
+          {%- else -%}
+            <p class="collection-desc">Encuentra los mejores productos seleccionados especialmente para tu mascota.</p>
+          {%- endif -%}
+          <div class="collection-meta-pill">{{ collection.products_count }} productos disponibles</div>
+        </div>
+
+        <div class="collection-hero-side">
+          <div class="collection-pet-switch">
+            <a href="{{ collections['gatos'].url | default: routes.all_products_collection_url }}" class="pet-switch-btn {% if collection.handle contains 'gato' %}active{% endif %}">
+              🐱 Gatos
+            </a>
+            <a href="{{ collections['perros'].url | default: routes.all_products_collection_url }}" class="pet-switch-btn {% if collection.handle contains 'perro' %}active{% endif %}">
+              🐶 Perros
+            </a>
+          </div>
+
+          <div class="collection-cat-list">
+            {%- assign base = 'gatos' -%}
+            {%- if collection.handle contains 'perro' -%}{%- assign base = 'perros' -%}{%- endif -%}
+            {%- assign cats = 'croquetas,alimento-seco,humedo,premios,suplementos' | split: ',' -%}
+            {%- assign cat_labels = 'Croquetas,Alimento Seco,Húmedo,Premios,Suplementos' | split: ',' -%}
+            {%- assign cat_icons2 = '🥣,🌾,🥩,⭐,💊' | split: ',' -%}
+            {%- for c in cats -%}
+              {%- assign target_handle = base | append: '-' | append: c -%}
+              {%- assign target_collection = collections[target_handle] -%}
+              <a href="{{ target_collection.url | default: routes.all_products_collection_url }}" class="cat-chip {% if collection.handle contains c %}active{% endif %}">
+                {{ cat_icons2[forloop.index0] }} {{ cat_labels[forloop.index0] }}
+              </a>
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
