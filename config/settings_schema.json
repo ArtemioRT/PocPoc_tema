@@ -1,0 +1,25 @@
+[
+  {
+    "name": "Tema",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_bg",
+        "label": "Color de fondo",
+        "default": "#f7f2ea"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Color de acento",
+        "default": "#e46b41"
+      },
+      {
+        "type": "color",
+        "id": "color_accent_2",
+        "label": "Color de acento secundario",
+        "default": "#2f7d6f"
+      }
+    ]
+  }
+]

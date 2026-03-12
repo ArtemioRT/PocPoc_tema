@@ -1,0 +1,25 @@
+<section class="container">
+  <div class="card-grid">
+    <div class="card">
+      {% if product.featured_image %}
+        <img src="{{ product.featured_image | image_url: width: 900 }}" alt="{{ product.title }}">
+      {% endif %}
+    </div>
+    <div class="card">
+      <h1>{{ product.title }}</h1>
+      <p class="price">{{ product.price | money }}</p>
+      <div>{{ product.description }}</div>
+      <form method="post" action="/cart/add">
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+        <button class="btn btn-primary" type="submit">Agregar al carrito</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Producto principal",
+  "settings": []
+}
+{% endschema %}

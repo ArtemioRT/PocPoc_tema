@@ -1,0 +1,60 @@
+<section class="container">
+  <h2 class="section-title">{{ section.settings.heading }}</h2>
+  <div class="card-grid">
+    {% for block in section.blocks %}
+      {% assign collection = collections[block.settings.collection] %}
+      <a class="card" href="{{ collection.url | default: '#' }}">
+        <h3>{{ block.settings.title | default: collection.title }}</h3>
+        <p>{{ block.settings.subtitle | default: collection.description | strip_html | truncate: 120 }}</p>
+      </a>
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Colecciones destacadas",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titulo",
+      "default": "Explora por coleccion"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Coleccion",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Coleccion"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Titulo personalizado"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitulo"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Colecciones destacadas",
+      "blocks": [
+        { "type": "collection" },
+        { "type": "collection" },
+        { "type": "collection" }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,104 @@
+<section class="container" id="pet-categories">
+  <h2 class="section-title">{{ section.settings.heading }}</h2>
+  <div class="card-grid">
+    {% for block in section.blocks %}
+      <article class="pet-block" id="{{ block.settings.anchor_id | default: block.settings.title | handleize }}">
+        <div class="pet-header">
+          <h3>{{ block.settings.title }}</h3>
+          {% if block.settings.cta_label != blank %}
+            <a class="btn btn-ghost" href="{{ block.settings.cta_link }}">{{ block.settings.cta_label }}</a>
+          {% endif %}
+        </div>
+        <div class="category-list">
+          {% assign items = block.settings.categories | split: '\n' %}
+          {% for item in items %}
+            {% assign trimmed = item | strip %}
+            {% if trimmed != blank %}
+              {% assign parts = trimmed | split: '|' %}
+              {% assign label = parts[0] | strip %}
+              {% assign url = parts[1] | strip %}
+              {% if url != blank %}
+                <a class="category-pill" href="{{ url }}">{{ label }}</a>
+              {% else %}
+                <span class="category-pill">{{ label }}</span>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Categorias por mascota",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titulo",
+      "default": "Categorias principales"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pet",
+      "name": "Mascota",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Titulo",
+          "default": "Gatos"
+        },
+        {
+          "type": "text",
+          "id": "anchor_id",
+          "label": "Anchor ID",
+          "default": "gatos"
+        },
+        {
+          "type": "textarea",
+          "id": "categories",
+          "label": "Categorias (una por linea. Opcional: Nombre|/collections/slug)",
+          "default": "Croquetas|/collections/croquetas\nAlimento seco|/collections/alimento-seco\nHumedo|/collections/humedo\nPremios|/collections/premios\nSuplementos|/collections/suplementos"
+        },
+        {
+          "type": "text",
+          "id": "cta_label",
+          "label": "Texto CTA",
+          "default": "Ver todo"
+        },
+        {
+          "type": "url",
+          "id": "cta_link",
+          "label": "Enlace CTA"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 2,
+  "presets": [
+    {
+      "name": "Categorias por mascota",
+      "blocks": [
+        {
+          "type": "pet",
+          "settings": {
+            "title": "Gatos",
+            "anchor_id": "gatos"
+          }
+        },
+        {
+          "type": "pet",
+          "settings": {
+            "title": "Perros",
+            "anchor_id": "perros"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

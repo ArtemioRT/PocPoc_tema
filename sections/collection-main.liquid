@@ -1,0 +1,32 @@
+<section class="container">
+  <div class="pet-header">
+    <h1>{{ collection.title }}</h1>
+    {% if collection.description != blank %}
+      <p>{{ collection.description }}</p>
+    {% endif %}
+  </div>
+  {% if collection.products_count == 0 %}
+    <div class="card">
+      <p>No hay productos en esta coleccion por ahora.</p>
+    </div>
+  {% else %}
+    <div class="product-grid">
+      {% for product in collection.products %}
+        <a class="product-card" href="{{ product.url }}">
+          {% if product.featured_image %}
+            <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.title }}">
+          {% endif %}
+          <strong>{{ product.title }}</strong>
+          <span class="price">{{ product.price | money }}</span>
+        </a>
+      {% endfor %}
+    </div>
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "Coleccion principal",
+  "settings": []
+}
+{% endschema %}

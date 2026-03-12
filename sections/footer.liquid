@@ -1,0 +1,53 @@
+<footer class="footer">
+  <div class="container footer-grid">
+    <div>
+      <h4>{{ section.settings.title }}</h4>
+      <p>{{ section.settings.subtitle }}</p>
+    </div>
+    <div>
+      <h4>Atencion</h4>
+      <p>{{ section.settings.support_text }}</p>
+    </div>
+    <div>
+      <h4>Enlaces</h4>
+      <div class="nav">
+        {% if section.settings.menu != blank %}
+          {% for link in linklists[section.settings.menu].links %}
+            <a href="{{ link.url }}">{{ link.title }}</a>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Titulo",
+      "default": "Todo para su bienestar"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitulo",
+      "default": "Compra rapida, entregas cuidadas y asesoramiento experto."
+    },
+    {
+      "type": "text",
+      "id": "support_text",
+      "label": "Texto de soporte",
+      "default": "Lun a Sab, 9am a 7pm. WhatsApp y chat en linea."
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu secundario"
+    }
+  ]
+}
+{% endschema %}
